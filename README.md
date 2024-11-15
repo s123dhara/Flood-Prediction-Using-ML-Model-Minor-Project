@@ -46,5 +46,5 @@ Ensure you have the following installed:
 
 ### Clone the repository
 ```bash
-git clone <repository-url>
-cd <project-directory>
+git clone git@github.com:s123dhara/Flood-Prediction-Using-ML-Model-Minor-Project-.git
+cd Flood Prediction Using ML Model Minor Project
