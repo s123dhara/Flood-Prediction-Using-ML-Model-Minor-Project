@@ -44,6 +44,26 @@ Ensure you have the following installed:
 - pip (Python package installer)
 - Dependencies (listed below)
 
+## Dependencies
+
+### Node.js Modules
+- **express**: A fast, unopinionated, minimalist web framework for Node.js.
+- **ejs**: A simple templating engine for rendering HTML views with embedded JavaScript.
+- **path**: Provides utilities for working with file and directory paths.
+- **body-parser**: Middleware to parse incoming request bodies.
+- **cors**: A package to enable Cross-Origin Resource Sharing.
+- **axios**: Promise-based HTTP client for making requests from the browser or Node.js.
+
+### Python Modules
+- **scikit-learn**: A Python module for machine learning, providing simple and efficient tools for data mining and data analysis.
+- **pickle5**: A backport of the `pickle` module used for serializing and deserializing Python objects, particularly the trained machine learning model.
+- **flask**: A lightweight WSGI web application framework in Python.
+- **dotenv**: A module to load environment variables from a `.env` file.
+- **os**: A Python module for interacting with the operating system, such as file and directory handling.
+- **pandas**: A fast, powerful, flexible, and easy-to-use open-source data analysis and manipulation tool.
+
+
+
 ### Clone the repository
 ```bash
 git clone git@github.com:s123dhara/Flood-Prediction-Using-ML-Model-Minor-Project-.git
