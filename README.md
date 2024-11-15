@@ -68,3 +68,28 @@ Ensure you have the following installed:
 ```bash
 git clone git@github.com:s123dhara/Flood-Prediction-Using-ML-Model-Minor-Project-.git
 cd Flood Prediction Using ML Model Minor Project
+
+```
+## Images
+ ![Home 1](https://github.com/user-attachments/assets/f37445b5-1b82-45e4-938e-637b5d22d072)
+
+ ![Home 2](https://github.com/user-attachments/assets/6c9cfff5-8ec0-4e5d-b0fb-56e58b951e1e)
+
+ ![Home 3](https://github.com/user-attachments/assets/de20eef4-69c9-4c63-8edb-145dbda36796)
+
+ ![Prediction Form page 1](https://github.com/user-attachments/assets/f4a882b1-b672-4f66-bcf4-d13228647bdb)
+
+ ![Prediction Form Page 2](https://github.com/user-attachments/assets/e39cd500-b113-4f90-b4ac-aea8d3d31f68)
+ 
+ ![Prediction Form Page 3](https://github.com/user-attachments/assets/455213dc-afd1-43e5-a06e-272335f4ddba)
+
+ ![Blog Page](https://github.com/user-attachments/assets/b4e4cf16-6685-4994-a847-f3fe71c28b58)
+
+  ![About Page](https://github.com/user-attachments/assets/b99f4e57-57cb-44fd-94d3-e282307f1e34)
+
+
+
+
+
+
+
