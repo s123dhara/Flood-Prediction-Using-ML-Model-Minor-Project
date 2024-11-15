@@ -1,0 +1,4 @@
+node_modules
+*.env
+table.txt
+test/

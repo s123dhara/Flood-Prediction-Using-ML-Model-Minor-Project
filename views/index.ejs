@@ -1,0 +1,825 @@
+<%- include('include/header', {html_title : "Flood Prediction System" }) %>
+<%- include('include/navbar') %>
+
+
+<!-- Including component name: market_hero -->
+<!------###################################1111111111111111111111111##################################################################################----->
+<section class="s1">
+  <style>
+    /* Slider Container */
+    .slider {
+      position: relative;
+      max-width: 1400px;
+      height: 500px;
+      margin: 25px 0px 0px 60px;
+      overflow: hidden;
+      /*border-radius: 20px; /* Rounded corners */
+      border-radius: 5px 5px 140px 5px;
+      /* Only curve left and right sides */
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      /* Optional shadow for effect */
+    }
+
+    /* Slides */
+    .slides {
+      display: none;
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      /* Ensures image covers the area while maintaining aspect ratio */
+      /*border-radius: 20px; /* Rounded corners for each slide */
+      border-radius: 5px 5px 140px 5px;
+    }
+
+    /* Active Slide */
+    .active-slide {
+      display: block;
+    }
+
+    /* Caption Container */
+    .caption-container {
+      position: absolute;
+      top: 50%;
+      left: 0px;
+      transform: translateY(-50%);
+      width: 30%;
+      height: 100%;
+      color: #333;
+      background-color: #f1e7e7d9;
+      padding: 15px;
+      border-radius: 0px;
+      font-size: 18px;
+      text-align: left;
+      opacity: 0;
+      transition: opacity 0.5s, transform 0.5s;
+      /* Fade and slide-in effect */
+    }
+
+    .a1 {
+      text-align: left;
+      margin-top: 30%;
+      margin-left: 10px;
+    }
+
+    .a1 #captionText {
+      text-align: left;
+      margin-top: 20px;
+      margin-left: 40px;
+    }
+
+    .a1 #ReadText {
+      text-align: left;
+      margin-top: 20px;
+      margin-left: 40px;
+    }
+
+    /* Slide-In Animation */
+    .active-slide~.caption-container {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+
+    /* Keyframes for Slide-In Effect */
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50%) translateX(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(-50%) translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* External Slide Number and Navigation Buttons */
+    .slide-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    /* Slide Number */
+    .slide-number {
+      font-size: 18px;
+      margin: 0 20px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    /* Navigation Buttons */
+    .nav-button {
+      background-color: rgba(242, 95, 4, 0.5);
+      color: white;
+      border: none;
+      padding: 15px;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 60%;
+      margin: 0 5px;
+      width: 60px;
+      height: 70px;
+    }
+
+    strong {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 30px;
+      color: #000;
+      text-align: left;
+    }
+
+    .slide-controls {
+      width: 100%;
+    }
+
+    .slide-number {
+      padding-right: 80%;
+    }
+  </style>
+  <div class="slider">
+    <img src="/images/s12.jpg" alt="Slide 1" class="slides active-slide">
+    <img src="/images/s15.jpg" alt="Slide 2" class="slides">
+    <img src="/images/s11.jpg" alt="Slide 3" class="slides">
+    <img src="/images/s14.jpg" alt="Slide 4" class="slides">
+
+    <!-- Caption Container -->
+    <div class="caption-container" id="captionContainer">
+      <div class="a1">
+        <B><small style="font-size: 12px; color: #424040; font-family:'Times New Roman', Times, serif">SERVICES
+            | STANTECH.IO</small></B><br>
+        <strong>Flood Predictor</strong>
+        <p id="captionText"><small style="size: 24px; font-family: 'Courier New', Courier, monospace;">Tennessee Flood
+            Prediction and Resiliency Implementation</samll>
+        </p>
+        <BR>
+        <a href="#" id="ReadText" style="color: black; text-decoration: none;"><b>Watch Now</b></a>
+        <i class='bx bx-right-arrow-alt'></i>
+      </div>
+    </div>
+  </div>
+  <!-- External Navigation Controls -->
+
+  <div class="slide-controls">
+    <div class="slide-number" id="slideCaption">1-4</div>
+
+    <button class="nav-button prev" onclick="changeSlide(-1)">&#10094;</button>
+
+    <button class="nav-button next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slides');
+    const totalSlides = slides.length;
+    const slideCaption = document.getElementById('slideCaption');
+    const captionContainer = document.getElementById('captionContainer');
+    const captionText = document.getElementById('captionText');
+
+    // Array of captions for each slide
+    const captions = [
+      "Tennessee Flood Prediction and Resiliency Implementation",
+      "Weather Analysis and Forecasting Techniques",
+      "Real-Time Data Monitoring Systems",
+      "Climate Change Impact on Local Communities"
+    ];
+
+    // Update the caption based on the current slide
+    function updateCaption() {
+      slideCaption.textContent = `${currentSlide + 1} - ${totalSlides}`;
+      captionText.textContent = captions[currentSlide];
+      captionContainer.style.animation = "none"; // Reset animation
+      setTimeout(() => {
+        captionContainer.style.animation = "slideIn 0.5s ease-in-out"; // Re-apply animation
+      }, 10);
+    }
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active-slide');
+        if (i === index) slide.classList.add('active-slide');
+      });
+      updateCaption();
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide >= slides.length) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = slides.length - 1;
+      showSlide(currentSlide);
+    }
+
+    // Auto Slide Transition every 3 seconds
+    setInterval(() => {
+      changeSlide(1);
+    }, 3000);
+
+    // Initialize caption on load
+    updateCaption();
+  </script>
+</section>
+<!------###################################1111111111111111111111111##################################################################################----->
+
+<section class="s2">
+  <div class="cq-market-hero section">
+
+    <div class="three-column" id="three-column">
+      <div class="three-column__headline-wrapper">
+        <h2 class="three-column__headline">
+          <b style="font-size: 30px; color: black; font-family: 'Times New Roman', Times, serif;">The
+            future of flood prediction is here</b>
+        </h2>
+      </div>
+      <div class="text-component three-column__body">
+        <p>Flood prediction is complex—from flash floods to swelling rivers and coastal surges, accurate
+          prediction necessitates comprehensive, current data.</p>
+        <p>Traditional manual processes take too long and rely on bounded, historical data inputs. Flood
+          Predictor overcomes these limitations by combining fundamental engineering principles with
+          up-to-date data including broad future forecasting and detailed changes like land use and
+          vegetation.</p>
+        <p>With Flood Predictor, you can get information on base level, historical, forecast, or user
+          defined scenarios in minutes.</p>
+      </div>
+      <div>
+        <p> Measurements of depth, water surface elevation, probability, and extent outputs are at your
+          fingertips, and our API endpoint can calculate your asset or location’s average curve
+          number.</p>
+        <p>We're currently developing coastal and riverine flooding tools to work alongside our flash
+          flooding reporting.</p>
+        <p>To learn more, contact us or<b> request a <a href="/model" target="_blank" class="text-lg tracking-wider"> demo</a></b>.</p>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<section class="s3">
+  <!----------------------------------22222222222222222222222222222222222222222---------------------------------------------------------->
+  <!-- Including component name: stats_copy -->
+  <div class="stats parbase section1" style="width: 100%; margin-left: 4%; margin-top: 5%;">
+
+    <style>
+      .stats {
+        margin: 10px;
+        display: flex;
+        max-width: 1400px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        /* Added shadow for depth */
+        background-color: #ffffff;
+        /* White background for contrast */
+        border-radius: 8px;
+        /* Rounded corners */
+        width: 100%;
+        height: 30%;
+      }
+
+      .stats__headline {
+        font-size: 18px;
+        /* Adjusted for better hierarchy */
+        font-weight: 600;
+        /* Slightly less bold */
+        width: 250px;
+        margin-right: 80px;
+        color: #333;
+        /* Darker for contrast */
+        margin-top: 20px;
+        margin-left: 10px;
+        padding-bottom: 10px;
+      }
+
+      .stats__details {
+        flex: 1;
+      }
+
+      .stats__data {
+        display: inline-block;
+        margin-right: 60px;
+        margin-left: 90px;
+        font-size: 20px;
+        /* Increased font size */
+        cursor: pointer;
+        position: relative;
+        padding: 10px 15px;
+        /* Added padding for better touch targets */
+        border-radius: 5px;
+        /* Rounded corners for items */
+        transition: background-color 0.3s, color 0.3s;
+        /* Smooth hover effects */
+      }
+
+      .stats__data:hover {
+        background-color: #e7f3ff;
+        /* Light blue background on hover */
+        color: #007bff;
+        /* Blue text color on hover */
+      }
+
+      .stats__data--active {
+        background-color: #007bff;
+        /* Blue background for active item */
+        color: #ffffff;
+        /* White text for contrast */
+      }
+
+      .stats__value {
+        font-weight: bold;
+        margin-left: 20%;
+        font-size: 20px;
+      }
+
+      .stats__caption {
+        font-size: 14px;
+        color: #595656;
+        font-size: 12px;
+      }
+
+      .stats__caption:hover {
+        font-size: 14px;
+        color: #928f8f;
+        font-size: 12px;
+      }
+
+      .stats__lines {
+        margin-top: 5px;
+        height: 2px;
+        background-color: #ddd;
+        position: relative;
+        overflow: hidden;
+        border-radius: 2px;
+        /* Rounded corners */
+        width: 95%;
+      }
+
+      .stats__lines--active {
+        height: 2px;
+        background-color: #007bff;
+        position: absolute;
+        width: 33%;
+        transition: all 0.3s ease;
+      }
+
+      .stats__description-container {
+        margin-top: 20px;
+        font-size: 16px;
+      }
+
+      .stats__description {
+        display: none;
+      }
+
+      .stats__description--active {
+        display: block;
+      }
+
+      /* Inline responsive design */
+      @media (max-width: 768px) {
+        .stats {
+          flex-direction: column;
+          padding: 15px;
+          /* Adjusted padding for smaller screens */
+        }
+
+        .stats__headline {
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+
+    <div class="stats">
+      <div class="stats__headline">
+        Flood Predictor helps you quickly understand your flood risk across a variety of scenarios
+      </div>
+
+      <div class="stats__details">
+        <div class="stats__inner">
+          <div class="stats__data stats__data--active" onclick="showDescription(0)">
+            <div class="stats__value">&lt;1 Hour</div>
+            <div class="stats__caption">Per Prediction Model</div>
+          </div>
+
+          <div class="stats__data" onclick="showDescription(1)">
+            <div class="stats__value">87-98%</div>
+            <div class="stats__caption">Overall Performance</div>
+          </div>
+
+          <div class="stats__data" onclick="showDescription(2)">
+            <div class="stats__value">77%</div>
+            <div class="stats__caption">Extreme Weather Cost Increase</div>
+          </div>
+        </div>
+
+        <div class="stats__lines">
+          <div class="stats__lines--active" id="underline"></div>
+        </div>
+
+        <div class="stats__description-container">
+          <div class="stats__description stats__description--active" id="description0">
+            Live scenario runs in Flood Predictor range from 30-50 minutes per watershed.
+          </div>
+          <div class="stats__description" id="description1">
+            Flood Predictor boasts a prediction accuracy rate of 98% using the area under curve
+            method and an 87% F1 Score.
+          </div>
+          <div class="stats__description" id="description2">
+            Over a five-decade period, the World Economic Forum has recorded a large increase in the
+            cost per extreme weather event.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showDescription(index) {
+        // Clear active state for all stats__data elements
+        const statsData = document.querySelectorAll('.stats__data');
+        statsData.forEach((element, i) => {
+          element.classList.remove('stats__data--active');
+          document.getElementById(`description${i}`).classList.remove('stats__description--active');
+        });
+
+        // Set active state for clicked item
+        statsData[index].classList.add('stats__data--active');
+        document.getElementById(`description${index}`).classList.add('stats__description--active');
+
+        // Adjust underline position
+        const underline = document.getElementById('underline');
+        underline.style.transform = `translateX(${index * 100}%)`;
+      }
+    </script>
+  </div>
+  <!----------------------------------22222222222222222222222222222222222222222---------------------------------------------------------->
+</section>
+
+<section class="s4">
+  <style>
+    /* Container Styling */
+    .container {
+      display: flex;
+      font-family: Arial, sans-serif;
+      margin-top: 5%;
+      margin-bottom: 5%;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 20px;
+      width: 90%;
+      box-sizing: border-box;
+      background-color: #f7f7f7;
+      height: 530px;
+      border-radius: 5px;
+    }
+
+    /* Menu Styling */
+    .menu {
+      width: 25%;
+      padding: 10px;
+      border-right: 2px solid #ddd;
+    }
+
+    .menu-item {
+      cursor: pointer;
+      padding: 20px;
+      border: 1px solid #ddd;
+      margin-bottom: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .menu-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .menu-item.active {
+      background-color: #ffd966;
+      border-left: 4px solid orange;
+    }
+
+    /* Content Area Styling */
+    .content {
+      width: 75%;
+      padding: 0px;
+    }
+
+    .text-message {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .image-container img {
+      /*max-width: 100%;
+            height: auto;*/
+      border: 1px solid #ddd;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+  <br>
+  <center><B style="font-size: 24px; text-align: center;">The Flood Predictor Advantage</B><br>
+    <small style="font-size: 14px; text-align: center; color: #888; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Flood
+      Predictor applies a first of its kind methodology to help communities accurately predict when and
+      where the next flood event will occur.</small>
+    <br><br>
+  </center>
+  <div class="container">
+    <!-- Menu -->
+    <div class="menu">
+      <div class="menu-item" onclick="showContent('dataSource')" id="dataSource">Multiple Data Sources
+      </div>
+      <div class="menu-item" onclick="showContent('theoryTech')" id="theoryTech">Theory Meets Technology
+      </div>
+      <div class="menu-item" onclick="showContent('floodTypes')" id="floodTypes">Broad Flood Type
+        Predictions</div>
+      <div class="menu-item" onclick="showContent('dynamicMetrics')" id="dynamicMetrics">Dynamic
+        Prediction Metrics</div>
+      <br>
+      <hr style="border: 1px solid rgb(221, 211, 211);">
+      <br>
+      <div class="text-message" id="textMessage"></div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+
+      <div class="image-container" id="imageContainer">
+        <img src="/images/t11.png" alt="Image Preview" id="previewImage" style="width: 1200px; height: 490px;">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showContent(option) {
+      // Reset active menu item styling
+      const menuItems = document.getElementsByClassName('menu-item');
+      for (let i = 0; i < menuItems.length; i++) {
+        menuItems[i].classList.remove('active');
+      }
+      document.getElementById(option).classList.add('active');
+
+      // Set text and image based on the selected option
+      const textMessage = document.getElementById('textMessage');
+      const previewImage = document.getElementById('previewImage');
+
+      if (option === 'dataSource') {
+        textMessage.innerText = "Unlike traditional floodplain maps, Flood Predictor includes multiple data sources and uses climate change factors to compile detailed predictions.";
+        previewImage.src = 't11.png'; // replace with your image path
+        previewImage.style.display = 'block';
+      } else if (option === 'theoryTech') {
+        textMessage.innerText = "Flood Predictor combines engineering theory with AI, utilizing machine learning to enhance prediction accuracy.";
+        previewImage.src = 't12.png'; // replace with your image path
+        previewImage.style.display = 'block';
+      } else if (option === 'floodTypes') {
+        textMessage.innerText = "This tool predicts various flood types, including flash floods, riverine floods, and coastal flooding.";
+        previewImage.src = 't13.png'; // replace with your image path
+        previewImage.style.display = 'block';
+      } else if (option === 'dynamicMetrics') {
+        textMessage.innerText = "Flood Predictor offers dynamic prediction metrics, allowing real-time updates and refined data inputs.";
+        previewImage.src = 't14.png'; // replace with your image path
+        previewImage.style.display = 'block';
+      } else {
+        textMessage.innerText = "Select a menu item to see details.";
+        previewImage.style.display = 't11.png';
+      }
+    }
+  </script>
+</section>
+
+<section class="s5">
+
+  <div role="status" class="flex flex-col items-center justify-center space-y-12 md:flex-row md:space-y-0 md:space-x-16 mx-auto">
+    <!-- Centered, larger image without animation -->
+    <div class="flex items-center justify-center w-2/3 h-72 md:h-96 bg-gray-300 rounded-lg sm:w-[36rem] dark:bg-gray-700">
+      <img src="/images/s4.png" alt="Description of image" class="w-full h-full object-cover rounded-lg">
+    </div>
+
+    <!-- Centered text content with more space from the image -->
+    <div class="w-full text-center md:text-left max-w-md">
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-6">Comprehensive flood
+        prediction support for the entire flood event life cycle</h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-4">Flood prediction may seem like a simple, linear
+        process: will there or won’t there be a flood? However, flood prediction is a highly complex
+        practice, involving multiple touch points along the progression of a flood event. Flood
+        Predictor is specifically designed to support this intricate process from start to finish,
+        empowering you with extensive data and insights. This comprehensive approach enables proactive,
+        informed decision-making.</p>
+
+      <a href="/blog" id="ReadText" style="color: black; text-decoration: none;"><b>Read Now</b></a>
+      <i class='bx bx-right-arrow-alt'></i>
+    </div>
+
+    <span class="sr-only">Content loaded</span>
+  </div>
+</section>
+
+
+<section class="s6">
+  <img class="h-[200px] w-[120%] object-cover" src="/images/s3.png" alt="image description">
+</section>
+
+<section class="s7" id="s7">
+  <style>
+    /*body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }*/
+    .hr-text {
+      padding-top: 40px;
+      margin-left: 80px;
+      display: flex;
+      align-items: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .hr-text::after {
+      content: "";
+      flex: 1;
+      margin-left: 5px;
+      border-bottom: 2px solid #000;
+      margin-right: 15px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin-top: 20px;
+    }
+
+    .main-content {
+      width: 35%;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .main-content1 {
+      width: 65%;
+      margin-top: 5%;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .sidebar {
+      width: 28%;
+      border-left: 1px solid #ddd;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .person-item {
+      cursor: pointer;
+      padding: 15px 0;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .person-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+
+    .person-item span {
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .person-item:hover {
+      background-color: #f9f9f9;
+    }
+
+    .person-item.selected::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background-color: #e66a25;
+      /* Orange line on the right */
+    }
+
+    .person-details img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      /* Thin gray border */
+      margin-bottom: 15px;
+    }
+
+    .person-details h2 {
+      margin: 10px 0 5px;
+      font-size: 1.8em;
+    }
+
+    .person-details h4 {
+      margin: 0 0 10px;
+      font-weight: normal;
+      color: #555;
+    }
+
+    .quote {
+      font-size: 1.2em;
+      font-style: italic;
+      color: #e66a25;
+    }
+
+    .person-item span {
+      font-size: 1.1em;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .subtitle {
+      font-size: 0.9em;
+      color: gray;
+      /* Set the color to gray */
+      font-style: italic;
+      /* Change font style to italic */
+      font-family: Arial, sans-serif;
+      /* Change font family if desired */
+      font-weight: normal;
+    }
+  </style>
+
+  <h2 class="hr-text">Our Team Member</h2>
+  <div class="container">
+    <!-- Main content area for displaying details on the left -->
+    <div class="main-content">
+      <div id="person-details" class="person-details">
+        <br><br>
+        <img src="/images/t0.png" alt="Default Image" id="person-image">
+      </div>
+    </div>
+    <div class="main-content1">
+      <div id="person-details" class="person-details">
+        <i class='bx bxs-user-pin bx-lg' style='color:#f68a06'></i> <br>
+        <h2 id="person-name">Flood Prediction System</h2>
+        <h4 id="person-title">Our Flood Prediction System was developed by a team of dedicated students
+          in 2024. The project aimed to leverage machine learning and software development skills to
+          create a reliable flood prediction tool for communities at risk.</h4>
+        <p class="quote" id="person-quote">A student-developed Flood Prediction Web Application</p>
+        <br>
+        <a href="/about" id="ReadText" style="color: black; text-decoration: none;"><b>Read Now</b></a>
+        <i class='bx bx-right-arrow-alt'></i>
+      </div>
+    </div>
+
+    <!-- Sidebar with menu items on the right side -->
+    <div class="sidebar">
+      <div class="person-item" onclick="showPerson(this, 'Kuntal Kabashi', 'ML Model Developer', 'I developed the Machine Learning model for flood prediction.', '/images/t5.jpeg')">
+        <img src="/images/t5.jpeg" alt="Kuntal Kabashi">
+        <span>Kuntal Kabashi<br><small class="subtitle">ML Model Developer</small></span>
+      </div>
+      <div class="person-item" onclick="showPerson(this, 'Rittik Dutta', 'Frontend Developer', 'I built the frontend for the flood prediction system.', '/images/t1.png')">
+        <img src="/images/t1.png" alt="Rittik Dutta">
+        <span>Rittik Dutta<br><small class="subtitle">Frontend Developer</small></span>
+      </div>
+      <div class="person-item" onclick="showPerson(this, 'Supriyo Dhara', 'Backend Developer', 'I developed the backend for the flood prediction system.', '/images/t4.jpeg')">
+        <img src="/images/t4.jpeg" alt="Supriyo Dhara">
+        <span>Supriyo Dhara<br><small class="subtitle">Backend Developer</small></span>
+      </div>
+      <div class="person-item" onclick="showPerson(this, 'Sneha Bhowmick', 'Support Analyst', 'I provided support analysis for the flood prediction project.', '/images/t2.png')">
+        <img src="/images/t2.png" alt="Sneha Bhowmick">
+        <span>Sneha Bhowmick<br><small class="subtitle">Support Analyst</small></span>
+      </div>
+      <div class="person-item" onclick="showPerson(this, 'Purbasha Dey', 'Support Analyst', 'I contributed to support analysis and community impact insights.', '/images/t3.jpg')">
+        <img src="/images/t3.jpg" alt="Purbasha Dey">
+        <span>Purbasha Dey<br><small class="subtitle">Support Analyst</small></span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showPerson(element, name, title, quote, imgSrc) {
+      // Update the main content with the selected person's details
+      document.getElementById("person-name").innerText = name;
+      document.getElementById("person-title").innerText = title;
+      document.getElementById("person-quote").innerText = quote;
+      document.getElementById("person-image").src = imgSrc;
+
+      // Remove 'selected' class from all person items
+      const personItems = document.querySelectorAll(".person-item");
+      personItems.forEach(item => item.classList.remove("selected"));
+
+      // Add 'selected' class to the clicked item
+      element.classList.add("selected");
+    }
+  </script>
+
+</section>
+
+<%- include('include/footer') %>
+<%- include('include/script_and_footer') %>

@@ -1,0 +1,308 @@
+<%- include('include/header', {html_title : "Flood Prediction Model" }) %>
+  <!-- Navbar Section Starts -->
+  <%- include('include/navbar') %>
+    <!-- Navbar Section Ends -->
+
+    <div class="flex flex-col gap-5 justify-center items-center w-full min-h-screen p-5">
+      <div class="flex flex-col items-center border rounded-lg shadow-lg md:flex-row md:max-w-4xl">
+        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-96 md:rounded-none md:rounded-l-lg"
+          src="/images/rainfall.jpg" alt="" />
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <div class="rounded-lg p-8 lg:col-span-3 lg:p-5">
+            <form onsubmit="predictFlood(event)" class="space-y-4">
+              <div class="mb-3">
+                <h2 class="text-3xl font-sans tracking-widest text-zinc-600">
+                  Flood Prediction Model
+                </h2>
+                <p class="mt-2 tracking-wider font-light font-[sans-sarif] text-sm text-zinc-500">
+                  Fill the Rainfall Data(12 Months)
+                </p>
+              </div>
+
+              <!-- Subdivision Selection -->
+              <div>
+                <label for="subdivision" class="sr-only">Select a Subdivision</label>
+                <input id="subdivision" class="w-full rounded-lg text-zinc-400 border-gray-300 p-3 text-sm"
+                  placeholder="Type to search regions" autocomplete="off" />
+                <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-subdivision"></span>
+                <ul class="list-group mt-2" id="searchResults" style="
+                display: none;
+                position: absolute;
+                z-index: 1000;
+                max-height: 200px;
+                overflow-y: auto;
+                width: 100%;
+              "></ul>
+              </div>
+
+              <!-- Measurement Selection -->
+              <!-- <div>
+                <label for="measurements" class="sr-only">Choose Measurements</label>
+                <select id="measurements" class="w-full rounded-lg text-zinc-400 border-gray-200 p-3 text-sm">
+                  <option selected>Choose Measurements</option>
+                  <option value="measurement1">Measurement 1</option>
+                  <option value="measurement2">Measurement 2</option>
+                  <option value="measurement3">Measurement 3</option>
+                  <option value="measurement4">Measurement 4</option>
+                </select>
+              </div> -->
+
+              <!-- Monthly Inputs: January to December -->
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="sr-only" for="jan">January</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="January"
+                    type="text" id="jan" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-jan"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="feb">February</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="February"
+                    type="text" id="feb" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-feb"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="mar">March</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="March"
+                    type="text" id="mar" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-mar"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="apr">April</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="April"
+                    type="text" id="apr" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-apr"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="may">May</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="May"
+                    type="text" id="may" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-may"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="jun">June</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="June"
+                    type="text" id="jun" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-jun"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="jul">July</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="July"
+                    type="text" id="jul" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-jul"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="aug">August</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="August"
+                    type="text" id="aug" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-aug"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="sep">September</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="September"
+                    type="text" id="sep" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-sep"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="oct">October</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="October"
+                    type="text" id="oct" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-oct"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="nov">November</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="November"
+                    type="text" id="nov" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-nov"></span>
+                </div>
+                <div>
+                  <label class="sr-only" for="dec">December</label>
+                  <input class="w-full rounded-lg border-gray-200 p-3 text-sm rainfall-input" placeholder="December"
+                    type="text" id="dec" />
+                  <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-dec"></span>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="mt-4">
+                <button type="submit"
+                  class="inline-block w-full rounded-lg bg-blue-500 px-5 py-3 font-medium text-white sm:w-auto hover:bg-blue-600">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="prediction_div"
+        class="w-full sm:w-3/4 md:w-2/5 border-gray-900 border-2 h-auto hidden flex-col items-center justify-center text-center rounded-lg shadow-lg p-4 max-w-md md:max-w-4xl">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-medium text-gray-700" id="model_result">
+          Model Prediction: Flooded
+        </h2>
+        <h1 class="text-lg sm:text-xl font-semibold mb-2" id="model_probability">
+          Model Flood Probability: 59.5%
+        </h1>
+      </div>
+    </div>
+
+    <div id="charts_div" class="hidden flex-col gap-8 p-4 items-center align-baseline justify-between w-full">
+      <div>
+        <h2 class="text-4xl text-zinc-600 tracking-tighter font-semibold underline">
+          Charts :
+        </h2>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-3">
+        <!-- Donut Chart -->
+        <div class="flex flex-col items-center w-full">
+          <h2 class="text-xl font-semibold mb-4">Flood Probability</h2>
+          <div class="chart-container">
+            <canvas id="myDonutChart" style="height: 200px"></canvas>
+          </div>
+        </div>
+
+        <!-- Sample Bar Chart -->
+        <div class="flex flex-col items-center w-full">
+          <h2 class="text-xl font-semibold mb-4">Rainfall Data</h2>
+          <div class="chart-container">
+            <canvas id="myChart" class="mt-[120px]" style="height: 200px"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/model_jquery.js"></script>
+    <script>
+      let doughnutChart;
+      let barChart;
+      const PORT = 3000;
+      async function predictFlood(event) {
+        event.preventDefault(); // Prevent the form from submitting traditionally
+
+        const rainfall = {
+          jan: parseFloat(document.getElementById("jan").value) || 0,
+          feb: parseFloat(document.getElementById("feb").value) || 0,
+          mar: parseFloat(document.getElementById("mar").value) || 0,
+          apr: parseFloat(document.getElementById("apr").value) || 0,
+          may: parseFloat(document.getElementById("may").value) || 0,
+          jun: parseFloat(document.getElementById("jun").value) || 0,
+          jul: parseFloat(document.getElementById("jul").value) || 0,
+          aug: parseFloat(document.getElementById("aug").value) || 0,
+          sep: parseFloat(document.getElementById("sep").value) || 0,
+          oct: parseFloat(document.getElementById("oct").value) || 0,
+          nov: parseFloat(document.getElementById("nov").value) || 0,
+          dec: parseFloat(document.getElementById("dec").value) || 0,
+        };
+
+        const subdivision = document.getElementById("subdivision").value;
+        console.log(subdivision);
+        console.log(rainfall);
+
+        try {
+          // Send data to the Node.js server
+          const response = await fetch(`http://localhost:3000/model/predict`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ subdivision, rainfall }),
+          });
+
+          const result = await response.json();
+
+          const model_result = document.getElementById("model_result");
+          const model_probability = document.getElementById("model_probability");
+          console.log("Result probability:", result.probability);
+          console.log("Result prediction:", result.prediction);
+          model_result.innerText = "Model Prediction: " + result.prediction;
+          model_probability.innerText =
+            "Model Flood Probability: " + result.probability + "%";
+
+          document.getElementById("prediction_div").classList.remove("hidden");
+          document.getElementById("prediction_div").classList.add("flex");
+          document.getElementById("charts_div").classList.remove("hidden");
+          document.getElementById("charts_div").classList.add("flex");
+          // Doughnut Chart
+          const ctx_doughnut = document
+            .getElementById("myDonutChart")
+            .getContext("2d");
+          if (doughnutChart) {
+            doughnutChart.data.datasets[0].data = [
+              result.probability,
+              100 - result.probability,
+            ];
+            doughnutChart.update();
+          } else {
+            doughnutChart = new Chart(ctx_doughnut, {
+              type: "doughnut",
+              data: {
+                labels: ["Yes", "No"],
+                datasets: [
+                  {
+                    label: "Flood Probability",
+                    data: [result.probability, 100 - result.probability],
+                    backgroundColor: ["#FF6384", "#36A2EB"],
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                plugins: { legend: { position: "top" } },
+                cutout: "70%",
+              },
+            });
+          }
+
+          // Bar Chart
+          const ctx_bar = document.getElementById("myChart").getContext("2d");
+          if (barChart) {
+            barChart.data.datasets[0].data = Object.values(rainfall);
+            barChart.update();
+          } else {
+            barChart = new Chart(ctx_bar, {
+              type: "bar",
+              data: {
+                labels: [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ],
+                datasets: [
+                  {
+                    label: "Monthly Rainfall (mm)",
+                    data: Object.values(rainfall),
+                    backgroundColor: "#4BC0C0",
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                scales: {
+                  y: { beginAtZero: true },
+                },
+              },
+            });
+          }
+        } catch (error) {
+          console.error("Error in fetch:", error);
+          alert("An error occurred. Please try again.");
+        }
+      }
+    </script>
+
+    <!-- <script src="/js/model.js"></script> -->
+    <script src="/js/chart.js"></script>
+    <!-- <script src="/js/model_chart.js"></script> -->
+
+    <%- include('include/footer') %> <%- include('include/script_and_footer') %>
