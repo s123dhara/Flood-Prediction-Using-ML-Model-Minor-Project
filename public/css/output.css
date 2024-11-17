@@ -1331,6 +1331,10 @@ video {
     height: auto;
   }
 
+  .md\:h-full {
+    height: 100%;
+  }
+
   .md\:w-2\/3 {
     width: 66.666667%;
   }
