@@ -1,5 +1,3 @@
-
-
 const isTeamMenuViewShown = (req, res, next) => {
     if (req.path === '/') {
         res.locals.isTeamMenuView = true;

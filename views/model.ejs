@@ -9,7 +9,7 @@
           src="/images/rainfall.jpg" alt="" />
         <div class="flex flex-col justify-between p-4 leading-normal">
           <div class="rounded-lg p-8 lg:col-span-3 lg:p-5">
-            <form onsubmit="predictFlood(event)" class="space-y-4">
+            <form class="space-y-4" onsubmit="predictFlood(event)">
               <div class="mb-3">
                 <h2 class="text-3xl font-sans tracking-widest text-zinc-600">
                   Flood Prediction Model
@@ -24,6 +24,7 @@
                 <label for="subdivision" class="sr-only">Select a Subdivision</label>
                 <input id="subdivision" class="w-full rounded-lg text-zinc-400 border-gray-300 p-3 text-sm"
                   placeholder="Type to search regions" autocomplete="off" />
+
                 <span class="text-red-400 px-3 font-[sans-sarif] error-message" id="eror-subdivision"></span>
                 <ul class="list-group mt-2" id="searchResults" style="
                 display: none;
@@ -125,7 +126,7 @@
 
               <!-- Submit Button -->
               <div class="mt-4">
-                <button type="submit"
+                <button type="submit" id="submitBtn"
                   class="inline-block w-full rounded-lg bg-blue-500 px-5 py-3 font-medium text-white sm:w-auto hover:bg-blue-600">
                   Submit
                 </button>
@@ -176,10 +177,45 @@
     <script>
       let doughnutChart;
       let barChart;
-      const PORT = 3000;
+      const PORT = '<%= PORT_FRONTEND %>';
       async function predictFlood(event) {
         event.preventDefault(); // Prevent the form from submitting traditionally
+        // Validate subdivision
+        const subdivisionInput = document.getElementById("subdivision");
+        const subdivisionError = document.getElementById("eror-subdivision");
+        if (!subdivisionInput.value.trim()) {
+          subdivisionError.textContent = "Please select a subdivision";
+          return;
+        } else {
+          subdivisionError.textContent = "";
+        }
 
+        // Validate all rainfall inputs
+        const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+        let hasError = false;
+
+        months.forEach(month => {
+          const input = document.getElementById(month);
+          const error = document.getElementById(`eror-${month}`);
+          const value = input.value.trim();
+
+          if (!value) {
+            error.textContent = "This field is required";
+            hasError = true;
+          } else if (isNaN(value)) {
+            error.textContent = "Please enter a valid number";
+            hasError = true;
+          } else if (parseFloat(value) < 0) {
+            error.textContent = "Value cannot be negative";
+            hasError = true;
+          } else {
+            error.textContent = "";
+          }
+        });
+
+        if (hasError) {
+          return;
+        }
         const rainfall = {
           jan: parseFloat(document.getElementById("jan").value) || 0,
           feb: parseFloat(document.getElementById("feb").value) || 0,
@@ -201,12 +237,15 @@
 
         try {
           // Send data to the Node.js server
-          const response = await fetch(`http://localhost:3000/model/predict`, {
+          const response = await fetch(`http://localhost:${PORT}/model/predict`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ subdivision, rainfall }),
+            body: JSON.stringify({
+              subdivision,
+              rainfall
+            }),
           });
 
           const result = await response.json();
@@ -238,18 +277,20 @@
               type: "doughnut",
               data: {
                 labels: ["Yes", "No"],
-                datasets: [
-                  {
-                    label: "Flood Probability",
-                    data: [result.probability, 100 - result.probability],
-                    backgroundColor: ["#FF6384", "#36A2EB"],
-                    borderWidth: 1,
-                  },
-                ],
+                datasets: [{
+                  label: "Flood Probability",
+                  data: [result.probability, 100 - result.probability],
+                  backgroundColor: ["#FF6384", "#36A2EB"],
+                  borderWidth: 1,
+                },],
               },
               options: {
                 responsive: true,
-                plugins: { legend: { position: "top" } },
+                plugins: {
+                  legend: {
+                    position: "top"
+                  }
+                },
                 cutout: "70%",
               },
             });
@@ -278,18 +319,18 @@
                   "Nov",
                   "Dec",
                 ],
-                datasets: [
-                  {
-                    label: "Monthly Rainfall (mm)",
-                    data: Object.values(rainfall),
-                    backgroundColor: "#4BC0C0",
-                    borderWidth: 1,
-                  },
-                ],
+                datasets: [{
+                  label: "Monthly Rainfall (mm)",
+                  data: Object.values(rainfall),
+                  backgroundColor: "#4BC0C0",
+                  borderWidth: 1,
+                },],
               },
               options: {
                 scales: {
-                  y: { beginAtZero: true },
+                  y: {
+                    beginAtZero: true
+                  },
                 },
               },
             });
@@ -301,8 +342,7 @@
       }
     </script>
 
-    <!-- <script src="/js/model.js"></script> -->
-    <script src="/js/chart.js"></script>
-    <!-- <script src="/js/model_chart.js"></script> -->
 
+
+    <script src="/js/chart.js"></script>
     <%- include('include/footer') %> <%- include('include/script_and_footer') %>

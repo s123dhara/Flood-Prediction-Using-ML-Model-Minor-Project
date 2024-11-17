@@ -5,8 +5,9 @@ const cors = require('cors')
 const axios = require('axios')
 const PORT = process.env.ML_PORT || 5000
 
+
 const renderPage = (req, res) => {
-    res.render('model');
+    res.render('model', { PORT_FRONTEND: process.env.PORT || 4000 });
 }
 
 const getPredict = async (req, res) => {
