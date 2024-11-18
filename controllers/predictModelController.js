@@ -15,7 +15,7 @@ const getPredict = async (req, res) => {
     console.log(req.body);
     try {
         // Send data to the Flask API (assumed to be running on localhost:5000)
-        const response = await axios.post( `http://127.0.0.1:${PORT}/predict`, {
+        const response = await axios.post( `https://flask-temp-el3a.onrender.com/predict`, {
             subdivision,
             rainfall
             // "supriyo" : "codex"
