@@ -1,6 +1,6 @@
 
 const appRendering = (req, res) => {
-    res.render('index'); 
+    res.render('error'); 
 };
 
 module.exports = { appRendering };
