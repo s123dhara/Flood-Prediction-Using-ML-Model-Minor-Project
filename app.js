@@ -36,11 +36,12 @@ const modelRouter = require('./routes/model')
 const blogRouter = require('./routes/blog')
 const aboutRouter = require('./routes/about');
 
-  
+
+
 // Use the Route and Deploy it
-app.use('/model', modelRouter);
-app.use('/blog', blogRouter);
-app.use('/about', aboutRouter);
+// app.use('/model', modelRouter);
+// app.use('/blog', blogRouter);
+// app.use('/about', aboutRouter);
 
 
 
