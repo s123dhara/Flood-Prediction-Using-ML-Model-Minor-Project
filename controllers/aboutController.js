@@ -1,5 +1,5 @@
 const aboutRenderPage = (req, res) => { 
-    res.render('blog')
+    res.render('about')
 }
 
 module.exports = { aboutRenderPage }
