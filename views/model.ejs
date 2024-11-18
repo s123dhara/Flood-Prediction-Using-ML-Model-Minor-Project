@@ -238,7 +238,7 @@
 
         try {
           // Send data to the Node.js server
-          const response = await fetch(`http://localhost:${PORT}/model/predict`, {
+          const response = await fetch(`https://floodprediction-gvnmjhks.b4a.run/model/predict`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
