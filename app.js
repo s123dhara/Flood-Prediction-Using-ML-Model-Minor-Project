@@ -39,9 +39,9 @@ const aboutRouter = require('./routes/about');
 
 
 // Use the Route and Deploy it
-// app.use('/model', modelRouter);
-// app.use('/blog', blogRouter);
-// app.use('/about', aboutRouter);
+app.use('/model', appRendering);
+app.use('/blog', appRendering);
+app.use('/about', appRendering);
 
 
 
