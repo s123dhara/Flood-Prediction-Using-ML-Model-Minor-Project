@@ -4,10 +4,6 @@ const bodyparser = require('body-parser')
 const cors = require('cors')
 const axios = require('axios');
 const { config } = require('../config/config');
-console.log(config);
-console.log(config.flaskurl);
-console.log(process.env.FLASK_HOST);
-console.log(process.env.PORT);
 
 
 const renderPage = (req, res) => {
@@ -16,7 +12,6 @@ const renderPage = (req, res) => {
 
 const getPredict = async (req, res) => {
     const { subdivision, rainfall } = req.body;
-    console.log(req.body);
     try {
         // Send data to the Flask API (assumed to be running on localhost:5000)
         const response = await axios.post( `${config.flaskurl}/predict`, {
@@ -24,7 +19,6 @@ const getPredict = async (req, res) => {
             rainfall
             // "supriyo" : "codex"
         });
-        console.log("output : ",response.data)
         res.json(response.data);
     } catch (error) {
         // console.error('Error calling Flask API:', error);

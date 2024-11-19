@@ -40,7 +40,7 @@ const regions = [
 require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 const FLASK_PORT = process.env.FLASK_PORT || 5000;
-console.log(FLASK_PORT);
+
 // config.js
 const config = {
   baseUrl: process.env.HOST === 'localhost'
