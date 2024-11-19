@@ -35,6 +35,21 @@ const regions = [
     "South Interior Karnataka",
     "Kerala",
     "Lakshadweep"
-  ];
+];
 
-module.exports = { regions };
+require('dotenv').config();
+const PORT = process.env.PORT || 4000;
+const FLASK_PORT = process.env.FLASK_PORT || 5000;
+console.log(FLASK_PORT);
+// config.js
+const config = {
+  baseUrl: process.env.HOST === 'localhost'
+    ? `http://localhost:${PORT}` // Local development URL
+    : 'https://floodprediction-gvnmjhks.b4a.run', // Live domain URL
+ 
+  flaskurl: process.env.FLASK_HOST === 'localhost'
+    ? `http://127.0.0.1:${FLASK_PORT}` // Local development URL
+    : 'https://flask-temp-el3a.onrender.com', // Live domain URL
+};
+
+module.exports = { regions, config };

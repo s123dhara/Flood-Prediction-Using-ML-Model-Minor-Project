@@ -1,5 +1,34 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 <script src="/js/script.js"></script>
+<script>
+    // Mobile Menu
+    var toggleOpen = document.getElementById("toggleOpen");
+    var toggleClose = document.getElementById("toggleClose");
+    var collapseMenu = document.getElementById("collapseMenu");
+
+    function handleClick() {
+        if (collapseMenu.style.display === "block") {
+            collapseMenu.style.display = "none";
+        } else {
+            collapseMenu.style.display = "block";
+        }
+    }
+
+    toggleOpen.addEventListener("click", handleClick);
+    toggleClose.addEventListener("click", handleClick);
+
+    // Carousel
+    document.addEventListener("DOMContentLoaded", function () {
+        const carousel = new HsCarousel(
+            document.querySelector("[data-hs-carousel]"),
+            {
+                autoplay: true,
+                duration: 700,
+            }
+        );
+        carousel.init();
+    });
+</script>
 </body>
 </html>
