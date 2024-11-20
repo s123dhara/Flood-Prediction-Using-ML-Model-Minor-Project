@@ -252,10 +252,12 @@
           const result = await response.json();
 
           const model_result = document.getElementById("model_result");
-          const model_probability = document.getElementById("model_probability");          
+          const model_probability = document.getElementById("model_probability");
+          console.log("Result probability:", result.probability);
+          console.log("Result prediction:", result.prediction);
           model_result.innerText = "Model Prediction: " + result.prediction;
           model_probability.innerText =
-            "Model Flood Probability: " + result.probability.toFixed(2) + "%";
+            "Model Flood Probability: " + result.probability + "%";
 
           document.getElementById("prediction_div").classList.remove("hidden");
           document.getElementById("prediction_div").classList.add("flex");
