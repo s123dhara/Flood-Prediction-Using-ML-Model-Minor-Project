@@ -37,6 +37,7 @@
               "></ul>
               </div>
 
+              <% if(0) { %>
               <!-- Measurement Selection -->
               <!-- <div>
                 <label for="measurements" class="sr-only">Choose Measurements</label>
@@ -48,6 +49,7 @@
                   <option value="measurement4">Measurement 4</option>
                 </select>
               </div> -->
+              <% } %>
 
               <!-- Monthly Inputs: January to December -->
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -233,9 +235,6 @@
         };
 
         const subdivision = document.getElementById("subdivision").value;
-        console.log(subdivision);
-        console.log(rainfall);
-
         try {
           // Send data to the Node.js server
           const response = await fetch(`${baseUrl}/model/predict`, {
