@@ -20,4 +20,4 @@ ENV PORT=3000
 EXPOSE 3000
 
 # Command to run the Node.js application
-CMD ["node", "app.js"]
+CMD ["node", "server.js"]
