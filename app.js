@@ -5,11 +5,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 
-// Config
-const { config } = require('./config/config');
 
 
 // Load environment variables
@@ -60,7 +57,4 @@ app.use('*', (req, res) => {
     }
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running at ${config.baseUrl}`);
-});
+module.exports = app;
